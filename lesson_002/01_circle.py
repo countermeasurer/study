@@ -11,7 +11,7 @@ radius = 42
 #       точность указывается в функции round()
 r = radius
 pi = 3.1415926
-s = (r * pi)**2
+s = (r * pi) ** 2
 print(round(s, 4))
 
 
@@ -27,13 +27,20 @@ point = (23, 34)
 #       формула так же есть в интернете
 #       квадратный корень - это возведение в степень 0.5
 #       операции сравнения дают булевы константы True и False
-#
+if point[0] <= radius and point[1] <= radius:
+    print(True)
+else:
+    print(False)
+
 
 # Аналогично для другой точки
 point_2 = (30, 30)
 # Если точка point_2 лежит внутри круга (radius = 42), то выведите на консоль True,
 # Или False, если точка лежит вовне круга.
-# 
+if point_2[0] <= radius and point_2[1] <= radius:
+    print(True)
+else:
+    print(False)
 
 # Пример вывода на консоль:
 #
