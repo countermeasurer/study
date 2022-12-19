@@ -48,7 +48,7 @@ class House:
     def __init__(self):
         self.food = 50
         self.money = 100
-        self.produkti = 0
+        self.produkti = 50
         self.mess = 0
 
     def __str__(self):
@@ -70,7 +70,7 @@ class Human:
             self.fullness = 100
         if self.happiness > 100:
             self.happiness = 100
-        return '{} , сытность - {} , счастье - {}'.format(self.name,self.fullness,self.happiness)
+        return '{} , сытность - {} , счастье - {}'.format(self.name, self.fullness, self.happiness)
 
     def eat(self, need_food):
 
@@ -94,17 +94,15 @@ class Husband(Human):
         if self.house.mess >= 100:
             self.happiness -= 10
         if self.happiness <= 0:
-            print('{} умер от горя'.format(self.name))
+            cprint('{} умер от горя'.format(self.name), color='red')
         if self.fullness <= 0:
-            print('{} умер от голода'.format(self.name))
+            cprint('{} умер от голода'.format(self.name), color='red')
         elif self.fullness <= 10:
             self.eat()
         elif self.house.money <= 150:
             self.work()
         elif i == 1:
             self.work()
-        elif i == 2:
-            self.gaming()
         else:
             self.gaming()
 
@@ -140,7 +138,7 @@ class Wife(Human):
             cprint('{} умерла от голода'.format(self.name), color='red')
         elif self.fullness <= 10:
             self.eat()
-        elif self.house.food <= 30:
+        elif self.house.food >= 30:
             self.working()
         elif self.house.produkti <= 30:
             self.shopping()
@@ -148,10 +146,8 @@ class Wife(Human):
             self.clean_house()
         elif i == 1:
             self.buy_fur_coat()
-        elif i == 2:
-            self.clean_house()
         else:
-            self.shopping()
+            print('{} прогулялась на улице'.format(self.name))
 
 
     def eat(self):
@@ -184,11 +180,11 @@ class Wife(Human):
 
 
     def working(self):
-        if self.house.food >= 10:
-            print('{} готовит еду'.format(self.name))
+        if self.house.food >= 0:
             self.house.produkti -= 10
             self.house.food += 10
             self.fullness -= 10
+            print('{} готовит еду'.format(self.name))
         else:
             print('{} не смогла приготовить еду. Продуктов нет'.format(self.name))
 
@@ -197,13 +193,13 @@ home = House()
 serge = Husband(name='Сережа', house=home)
 masha = Wife(name='Маша', house=home)
 
-for day in range(21):
+for day in range(7):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
     masha.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(home, color='cyan')
+    cprint(serge, color='red')
+    cprint(masha, color='red')
+    cprint(home, color='red')
 
 
 # TODO после реализации первой части - отдать на проверку учителю
@@ -236,7 +232,7 @@ for day in range(21):
 class Cat:
 
     def __init__(self):
-        pass
+        passs
 
     def act(self):
         pass
