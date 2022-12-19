@@ -46,71 +46,158 @@ from random import randint
 class House:
 
     def __init__(self):
-        pass
+        self.food = 50
+        self.money = 100
+        self.produkti = 0
+        self.mess = 0
+
+    def __str__(self):
+        return '{} - Денег в тумбочке, {} - еды в холодильнике, {} - продуктов дома'.format(self.money, self.food,
+                                                                                            self.produkti)
+
 
 
 class Human:
 
-    def __init__(self):
-        pass
+    def __init__(self, name, house):
+        self.name = name
+        self.house = house
+        self.fullness = 30
+        self.happiness = 100
 
-    def eat(self):
-        pass
+    def __str__(self):
+        if self.fullness > 100:
+            self.fullness = 100
+        if self.happiness > 100:
+            self.happiness = 100
+        return '{} , сытность - {} , счастье - {}'.format(self.name,self.fullness,self.happiness)
+
+    def eat(self, need_food):
+
+        if self.house.food >= need_food:
+            self.house.food -= need_food
+            self.fullness += need_food
+            print('{} ест'.format(self.name))
 
     def carres(self):
         pass
 
 
-class Husband:
+class Husband(Human):
 
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return super().__str__()
+    def __init__(self, name, house):
+        super().__init__(name=name, house=house)
+        self.need_food = 30
 
     def act(self):
-        pass
+        i = randint(1, 3)
+        if self.house.mess >= 100:
+            self.happiness -= 10
+        if self.happiness <= 0:
+            print('{} умер от горя'.format(self.name))
+        if self.fullness <= 0:
+            print('{} умер от голода'.format(self.name))
+        elif self.fullness <= 10:
+            self.eat()
+        elif self.house.money <= 150:
+            self.work()
+        elif i == 1:
+            self.work()
+        elif i == 2:
+            self.gaming()
+        else:
+            self.gaming()
 
     def eat(self):
-        pass
+
+        super().eat(self.need_food)
 
     def work(self):
-        pass
+        self.house.money += 150
+        self.fullness -= 10
+        print('{} сходил на работу'.format(self.name))
 
     def gaming(self):
-        pass
+        self.happiness += 10
+        self.fullness -= 10
+        print('{} играл в WOT весь день'.format(self.name))
 
 
-class Wife:
+class Wife(Human):
 
-    def __init__(self):
-        pass
+    def __init__(self, name, house):
+        super().__init__(name=name, house=house)
+        self.need_food = 30
 
-    def __str__(self):
-        return super().__str__()
 
     def act(self):
-        pass
+        i = randint(1, 5)
+        if self.house.mess >= 100:
+            self.happiness -= 10
+        if self.happiness <= 0:
+            cprint('{} умерла от горя'.format(self.name), color='red')
+        if self.fullness <= 0:
+            cprint('{} умерла от голода'.format(self.name), color='red')
+        elif self.fullness <= 10:
+            self.eat()
+        elif self.house.food <= 30:
+            self.working()
+        elif self.house.produkti <= 30:
+            self.shopping()
+        elif self.house.mess >= 100:
+            self.clean_house()
+        elif i == 1:
+            self.buy_fur_coat()
+        elif i == 2:
+            self.clean_house()
+        else:
+            self.shopping()
+
 
     def eat(self):
-        pass
+        super().eat(self.need_food)
 
     def shopping(self):
-        pass
+        if self.house.money >= 50:
+            self.house.money -= 50
+            self.house.produkti += 50
+            self.happiness += 10
+            self.fullness -= 10
+            print('{} сходила в магазин за продуктами'.format(self.name))
 
     def buy_fur_coat(self):
-        pass
+        if self.house.money >= 350:
+            self.house.money -= 350
+            self.happiness += 90
+            self.fullness -= 10
+            print('{} купила шубу'.format(self.name))
 
     def clean_house(self):
-        pass
+        if self.house.mess <= 100:
+            self.house.mess = 0
+            self.fullness -= 10
+            print('{} убралась в доме'.format(self.name))
+        else:
+            self.house.mess -= 100
+            self.happiness -= 10
+            print('{} убралась в доме'.format(self.name))
+
+
+    def working(self):
+        if self.house.food >= 10:
+            print('{} готовит еду'.format(self.name))
+            self.house.produkti -= 10
+            self.house.food += 10
+            self.fullness -= 10
+        else:
+            print('{} не смогла приготовить еду. Продуктов нет'.format(self.name))
 
 
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+serge = Husband(name='Сережа', house=home)
+masha = Wife(name='Маша', house=home)
 
-for day in range(365):
+for day in range(21):
     cprint('================== День {} =================='.format(day), color='red')
     serge.act()
     masha.act()
@@ -203,23 +290,23 @@ class Child:
 # отправить на проверку учителем.
 
 
-home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-kolya = Child(name='Коля')
-murzik = Cat(name='Мурзик')
-
-for day in range(365):
-    cprint('================== День {} =================='.format(day), color='red')
-    serge.act()
-    masha.act()
-    kolya.act()
-    murzik.act()
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(kolya, color='cyan')
-    cprint(murzik, color='cyan')
-
+# home = House()
+# serge = Husband(name='Сережа',house=home)
+# masha = Wife(name='Маша',house=home)
+# # kolya = Child(name='Коля')
+# # murzik = Cat(name='Мурзик')
+#
+# for day in range(365):
+#     cprint('================== День {} =================='.format(day), color='red')
+#     serge.act()
+#     masha.act()
+#     # kolya.act()
+#     # murzik.act()
+#     cprint(serge, color='cyan')
+#     cprint(masha, color='cyan')
+#     # cprint(kolya, color='cyan')
+#     # cprint(murzik, color='cyan')
+#
 # Усложненное задание (делать по желанию)
 #
 # Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
