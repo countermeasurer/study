@@ -84,7 +84,7 @@ class FileTreatment:
 
     def run(self):
         with open(self.path) as read_file:
-            self.unpacking_fie(read_file)
+            self.unpacking_file(read_file)
         return self.volatility, self.ticker
 
     def unpacking_file(self, read_file):
@@ -106,7 +106,7 @@ class FileTreatment:
                     maximum_value = check_price
         self.calculations_file_and_sorted(maximum_value, minimum_value)
 
-        def calculations_file_and_sorted(self, maximum_value, minimum_value):
+    def calculations_file_and_sorted(self, maximum_value, minimum_value):
             if maximum_value is None or minimum_value is None:
                 raise ValueError('ERROR')
             else:
@@ -117,7 +117,7 @@ class FileTreatment:
 zero_volatility = []
 all_volatility = []
 for dirpath, _, filenames in os.walk('trades'):
-    for line in filenames:
+    for file in filenames:
         path = os.path.join(dirpath, file)
         trade = FileTreatment(path)
         volatility, ticker = trade.run()
@@ -126,4 +126,15 @@ for dirpath, _, filenames in os.walk('trades'):
         else:
             all_volatility.append((volatility, ticker))
 
-
+all_volatility.sort(reverse=True)
+zero_volatility.sort()
+max_volatility = all_volatility[0:3]
+min_volatility = all_volatility[-3:0]
+print('max')
+for element in max_volatility:
+    print(element)
+print('min')
+for element in min_volatility:
+    print(element)
+print('zero')
+print(zero_volatility)
