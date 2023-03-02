@@ -21,9 +21,11 @@
 import os
 import threading
 
+
 class FileTreatment(threading.Thread):
-    def __init__(self,path, lock, not_zero_volatility, zero_volatility, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+
+    def __init__(self, path, lock, not_zero_volatility, zero_volatility, *args, **kwargs):
+        super(FileTreatment, self).__init__(*args, **kwargs)
         self.path = path
         self.volatility = None
         self.ticker = None
@@ -43,12 +45,12 @@ class FileTreatment(threading.Thread):
     def unpacking_file(self, read_file):
         minimum_value = None
         maximum_value = None
-        if_first_line = True
+        is_first_line = True
         for _, line in enumerate(read_file):
             if is_first_line:
                 is_first_line = False
             else:
-                self.ticker, trade_time, price, quantity = line.split('.')
+                self.ticker, trade_time, price, quantity = line.split(',')
                 check_price = float(price)
                 if minimum_value is None:
                     minimum_value = check_price
@@ -57,14 +59,14 @@ class FileTreatment(threading.Thread):
                     minimum_value = check_price
                 elif maximum_value < check_price:
                     maximum_value = check_price
-                self.calculations_file_and_sorted(maximum_value, minimum_value)
+        self.calculations_file_and_sorted(maximum_value, minimum_value)
 
-    def calculations_file_and_sorted(self, maximum_vlaue, minimum_vlaue):
-        if maximum_vlaue is None or minimum_vlaue is None:
+    def calculations_file_and_sorted(self, maximum_value, minimum_value):
+        if maximum_value is None or minimum_value is None:
             raise ValueError('ERROR')
         else:
-            average_price = (maximum_vlaue + minimum_vlaue) / 2
-            self.volatility = round(((maximum_vlaue - minimum_vlaue) / average_price) * 100, 2)
+            average_price = (maximum_value + minimum_value) / 2
+            self.volatility = round(((maximum_value - minimum_value) / average_price) * 100, 2)
 
 
 def main():
@@ -72,8 +74,8 @@ def main():
     all_volatility = []
     flows = []
     lock = threading.Lock()
-    for dirpath, _, filename in os.walk('treades'):
-        for file in filename:
+    for dirpath, _, filenames in os.walk('trades'):
+        for file in filenames:
             path = os.path.join(dirpath, file)
             flow = FileTreatment(path, lock, all_volatility, zero_volatility)
             flows.append(flow)
