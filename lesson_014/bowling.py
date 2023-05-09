@@ -27,3 +27,4 @@ def check_frames(frames):
             elif symbol == 0:
                 raise WrongSymbols(f'Неверный символ {symbol}')
 
+
