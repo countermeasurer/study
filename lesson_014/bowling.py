@@ -1,4 +1,4 @@
-class WrongSymbols(Exception):
+class WrongSymbol(Exception):
     pass
 
 
@@ -19,24 +19,24 @@ def check_frames(frames):
                 count_frames += 1
                 step -= 1
             elif symbol == '/':
-                raise Exception('Первый символ фрейма /')
+                raise Exception('Первый символ фрейма "/" ')
             elif not symbol.isdigit() and symbol != '-' and symbol != 'X':
-                raise WrongSymbols(f'Неверный символ {symbol}')
-            elif symbol == 0:
-                raise WrongSymbols(f'Неверный символ {symbol}')
+                raise WrongSymbol(f'Неверный символ {symbol} ')
+            elif symbol == '0':
+                raise WrongSymbol(f'Неверный символ {symbol} ')
         elif step % 2 == 0:
             count_frames += 1
             if symbol == 'X':
-                raise Exception(f'Второй символ фрейма "X" ')
-            elif not symbol.isdigit() and symbol != '-' and symbol != '-':
-                raise WrongSymbols(f'неверный символ {symbol}')
+                raise Exception('Второй символ фрейма "Х" ')
+            elif not symbol.isdigit() and symbol != '-' and symbol != '/':
+                raise WrongSymbol(f'Неверный символ {symbol} ')
             elif symbol == '0':
-                raise WrongSymbols(f'Неверный символ {symbol}')
-            elif prev_symbol.isdigit() and symbol.isdigit and int(prev_symbol) + int(symbol) >= 10:
-                raise SumError(f'Неверный ввод или сумма > 10({prev_symbol}, {symbol})')
+                raise WrongSymbol(f'Неверный символ {symbol} ')
+            elif prev_symbol.isdigit() and symbol.isdigit() and int(prev_symbol) + int(symbol) >= 10:
+                raise SumError(f'Неверный ввод, либо сумма > 10  ({prev_symbol}, {symbol})')
         prev_symbol = symbol
     if (len(frames) + count_x) / 2 != 10:
-        raise Exception('Кол-во фреймов не равно 10 (не хватает символов)')
+        raise Exception('Количество фреймов != 10 (лишний/не хватает сомволов)')
 
 
 def get_score(get_string):
@@ -65,26 +65,33 @@ def get_score_europe(get_string):
         elif get_string[x] == '-':
             score_prepare.append(0)
         elif get_string[x] == '/':
-            get_string[-1] = 10
+            score_prepare[-1] = 10
         elif get_string[x].isdigit():
             score_prepare.append(int(get_string[x]))
     for i in range(len(score_prepare)):
         if score_prepare[i] == 10:
-            if i + 1 < len(score_prepare):
-                spar_and_strike.append(score_prepare[i + 1])
+            if i+1 < len(score_prepare):
+                spar_and_strike.append(score_prepare[i+1])
             else:
-                if i + 1 == len(score_prepare):
+                if i+1 == len(score_prepare):
                     spar_and_strike.append(10)
         if score_prepare[i] == 11:
-            if i + 1 == len(score_prepare):
-                spar_and_strike.append(score_prepare[i + 1])
+            if i+1 < len(score_prepare):
+                spar_and_strike.append(score_prepare[i+1])
             else:
-                if i + 1 == len(score_prepare):
+                if i+1 == len(score_prepare):
                     spar_and_strike.append(10)
-            if i + 2 < len(score_prepare):
-                spar_and_strike.append([i + 2])
+            if i+2 < len(score_prepare):
+                spar_and_strike.append(score_prepare[i+2])
             else:
-                if i + 2 == len(score_prepare):
+                if i+2 == len(score_prepare):
                     spar_and_strike.append(10)
     score_result = sum(spar_and_strike) + sum(score_prepare)
     return score_result
+
+
+get_score_europe(get_string='4/81X3/4/1/-12651X')
+get_score_europe(get_string='811/X--3/XX171/43')
+get_score_europe(get_string='X34--3/4353-5--629/')
+
+
