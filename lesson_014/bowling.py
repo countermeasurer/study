@@ -26,5 +26,69 @@ def check_frames(frames):
                 raise WrongSymbols(f'Неверный символ {symbol}')
             elif symbol == 0:
                 raise WrongSymbols(f'Неверный символ {symbol}')
+        elif step % 2 == 0:
+            count_frames += 1
+            if symbol == 'X':
+                raise Exception(f'Второй символ фрейма "X" ')
+            elif not symbol.isdigit() and symbol != '-' and symbol != '-':
+                raise WrongSymbols(f'неверный символ {symbol}')
+            elif symbol == '0':
+                raise WrongSymbols(f'Неверный символ {symbol}')
+            elif prev_symbol.isdigit() and symbol.isdigit and int(prev_symbol) + int(symbol) >= 10:
+                raise SumError(f'Неверный ввод или сумма > 10({prev_symbol}, {symbol})')
+        prev_symbol = symbol
+    if (len(frames) + count_x) / 2 != 10:
+        raise Exception('Кол-во фреймов не равно 10 (не хватает символов)')
 
+
+    def get_score(get_string):
+        score_prepare = []
+        check_frames(frames=get_string)
+        for x in range(0, len(get_string)):
+            if get_string[x] == 'X':
+                score_prepare.append(20)
+            elif get_string[x] == '-':
+                score_prepare.append(0)
+            elif get_string[x].isdigit():
+                score_prepare.append(int(get_string[x]))
+            elif get_string[x] == '/':
+                score_prepare.append(15)
+                score_prepare.pop(-2)
+        return sum(score_prepare)
+
+
+
+    def get_score_europe(get_string):
+        score_prepare = []
+        spar_and_strike = []
+        check_frames(frames=get_string)
+        for x in range(0, len(get_string)):
+            if get_string[x] == 'X':
+                score_prepare.append(11)
+            elif get_string[x] == '-':
+                score_prepare.append(0)
+            elif get_string[x] == '/':
+                get_string[-1] = 10
+            elif get_string[x].isdigit():
+                score_prepare.append(int(get_string[x]))
+        for i in range(len(score_prepare)):
+            if score_prepare[i] == 10:
+                if i + 1 < len(score_prepare):
+                    spar_and_strike.append(score_prepare[i + 1])
+                else:
+                    if i + 1 == len(score_prepare):
+                        spar_and_strike.append(10)
+            if score_prepare[i]==11:
+                if i + 1 == len(score_prepare):
+                    spar_and_strike.append(score_prepare[i + 1])
+                else:
+                    if i + 1 == len(score_prepare):
+                        spar_and_strike.append(10)
+                if i + 2 < len(score_prepare):
+                    spar_and_strike.append([i + 2])
+                else:
+                    if i + 2 == len(score_prepare):
+                        spar_and_strike.append(10)
+        score_result = sum(spar_and_strike) + sum(score_prepare)
+        return score_result
 
