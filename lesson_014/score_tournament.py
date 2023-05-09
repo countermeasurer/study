@@ -16,7 +16,7 @@ def score_tournament(in_file, out_file):
                 line = line.split()
                 try:
                     get_score_name = bowling.get_score(get_string=line[1])
-                except (Exception, bowling.SumError, bowling.WrongSymbols) as exc:
+                except (Exception, bowling.SumError, bowling.WrongSymbol) as exc:
                     winner_in_tour[0] = line[0]
                     info_to_out.append(f'{line[0]} {line[1]} 0 => {exc}')
                 else:
@@ -41,7 +41,7 @@ def score_tournament_europe(in_file, out_file):
                 line = line.split()
                 try:
                     get_score_name = bowling.get_score_europe(get_string=line[1])
-                except (Exception, bowling.SumError, bowling.WrongSymbols) as exc:
+                except (Exception, bowling.SumError, bowling.WrongSymbol) as exc:
                     winner_in_tour[0] = line[0]
                     info_to_out.append(f'{line[0]} {line[1]} 0 => {exc}')
                 else:
